@@ -1,3 +1,5 @@
+import os
+
 from delta.tables import DeltaTable
 from pyspark.sql import DataFrame
 from pyspark.sql.session import SparkSession
@@ -12,6 +14,10 @@ def read_csv(spark: SparkSession, path: str) -> DataFrame:
 
 
 def write_delta(spark: SparkSession, df: DataFrame, path: str, cluster_by: list[str]) -> None:
+    # DeltaTable.createOrReplace(...).location(path) builds SQL internally
+    # (delta.`{path}`), and a relative path starting with ./ breaks that
+    # parser (INVALID_ATTRIBUTE_NAME_SYNTAX) -- normalize to absolute first.
+    path = os.path.abspath(path)
     if DeltaTable.isDeltaTable(spark, path):
         # Table already exists with its CLUSTER BY spec set, clear rows via 
         # DELETE rather than mode('overwrite'), since overwrite rewrites

@@ -45,15 +45,15 @@ Requires Python 3.12, JDK 21, and [uv](https://docs.astral.sh/uv/) installed loc
 # Install dependencies
 uv sync
 
-# DATA_PATH defaults to /data, which only exists inside the container (the
-# ./data:/data bind mount) -- outside Docker, point it at a local folder.
-export 
-
 # Generate the mock sales dataset
-DATA_PATH=./data scripts/generate_sales_data.py
+DATA_PATH="$(pwd)/data" scripts/generate_sales_data.py
 
-# Run the PySpark job
-scripts/run.sh
+# Run the PySpark job (must be an absolute path -- Delta's path-based table
+# addressing breaks on a leading ./ in the path)
+DATA_PATH="$(pwd)/data" scripts/run.sh
+
+# Check the Files
+tree ./data -L 4
 
 # Run the tests
 uv run pytest
