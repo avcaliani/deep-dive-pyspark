@@ -1,12 +1,9 @@
+import argparse
+
 from pyspark.sql import SparkSession
 
-from pipeline import DunderMifflinSalesPipeline
+from pipeline import PIPELINES
 from utils import log
-
-# TODO: Setup ArgParse to receive the pipeline name -p | --pipeline
-# In the main, parse the arguments and trigger the pipeline according to the pipeline name
-
-# Also, create an trait/abstract class Pipeline that forces the run() method implementation
 
 
 def spark_session() -> SparkSession:
@@ -16,11 +13,23 @@ def spark_session() -> SparkSession:
         .getOrCreate()
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description='Run a PySpark pipeline.')
+    parser.add_argument(
+        '-p', '--pipeline',
+        required=True,
+        choices=sorted(PIPELINES),
+        help='Name of the pipeline to run.',
+    )
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
+    args = parse_args()
     spark = spark_session()
     log.info(f'Spark Version: {spark.version}')
     try:
-        DunderMifflinSalesPipeline(spark).run()
+        PIPELINES[args.pipeline](spark).run()
     except Exception as ex:
         log.error(f"Unexpected Error! {ex}")
     finally:
