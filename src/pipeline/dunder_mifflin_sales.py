@@ -2,8 +2,8 @@ from os import environ as env
 
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as f
-from pyspark.sql.session import SparkSession
 
+from pipeline.base import Pipeline
 from utils import file, log
 
 TAG = 'Dunder Mifflin Sales'
@@ -13,10 +13,7 @@ OUTPUT_PATH = f'{DATA_PATH}/silver/dunder-mifflin-sales'
 CLUSTER_BY = ['branch', 'date']
 
 
-class DunderMifflinSalesPipeline:
-
-    def __init__(self, spark: SparkSession):
-        self.spark = spark
+class DunderMifflinSalesPipeline(Pipeline):
 
     def run(self) -> None:
         log.info(f'{TAG}: STARTED')
@@ -32,10 +29,11 @@ class DunderMifflinSalesPipeline:
         df.printSchema()
         df.show(5)
 
-    def process(self, df: DataFrame) -> DataFrame:
-        df = self.rename_cols(df)
-        df = self.parse_cols(df)
-        df = self.data_quality(df)
+    @classmethod
+    def process(cls, df: DataFrame) -> DataFrame:
+        df = cls.rename_cols(df)
+        df = cls.parse_cols(df)
+        df = cls.data_quality(df)
         return df
 
     @classmethod
