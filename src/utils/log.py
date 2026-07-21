@@ -13,7 +13,7 @@ def __caller_name() -> str:
 
 def __logger() -> Logger:
     sc = SparkContext.getOrCreate()
-    log4j = sc._jvm.org.apache.log4j
+    log4j = sc._jvm.org.apache.logging.log4j
     return log4j.LogManager.getLogger(__caller_name())
 
 
