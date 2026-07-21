@@ -1,10 +1,10 @@
 services:
   app:
     user: root
-    container_name: app
+    container_name: pyspark-local
     build:
       context: .
-    image: pyspark
+    image: pyspark-local
     working_dir: /app
     volumes:
       - .:/app
