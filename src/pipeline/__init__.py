@@ -1,3 +1,3 @@
-from pipeline.play_store import PlayStorePipeline
+from pipeline.dunder_mifflin_sales import DunderMifflinSalesPipeline
 
-__all__ = ['PlayStorePipeline']
+__all__ = ['DunderMifflinSalesPipeline']
