@@ -1,19 +1,21 @@
 # 🐍️ PySpark App
 By Anthony Vilarim Caliani
 
-![License](https://img.shields.io/github/license/avcaliani/aws-app?logo=apache&color=lightseagreen) [![#](https://img.shields.io/badge/open--jdk-1.8.x-red.svg)](#) [![#](https://img.shields.io/badge/python-3.9.x-yellow.svg)](#) [![#](https://img.shields.io/badge/apache--spark-3.0.0-darkorange.svg)](#)
+![License](https://img.shields.io/github/license/avcaliani/deep-dive-pyspark?logo=apache&color=lightseagreen)
+![Temurin](https://img.shields.io/badge/Temurin-21-FF7800?logo=eclipseadoptium&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![uv](https://img.shields.io/badge/uv-0.11.29-DE5FE9?logo=astral&logoColor=white)
+![Spark](https://img.shields.io/badge/Apache--Spark-4.1.1-E25A1C?logo=apachespark&logoColor=white)
+![Delta Lake](https://img.shields.io/badge/Delta_Lake-4.2.0-00ADD8)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 
-In this project you will find some stuff that I've done while I was learning about working with PySpark and [MongoDB](https://docs.mongodb.com/spark-connector/master/python-api).  
-To develop this project I'm going to use a "Google Play Store Apps" dataset, so thanks to [@lava18](https://www.kaggle.com/lava18) for sharing it.
+In this project you will find some stuff that I've done while learning about working with PySpark and [Delta Lake](https://delta.io).
+This is a reference scaffold you clone from to start new PySpark projects, not a maintained showcase.
 
+The dataset is a locally-generated, dependency-free mock of Dunder Mifflin's daily paper sales (yes, [The Office](https://en.wikipedia.org/wiki/The_Office_(American_TV_series))) — no download, no internet access needed to run this.
 
 ## Quick Start
 
-First, let's retrieve the dataset...
-1. Download the dataset from [Kaggle](https://www.kaggle.com/lava18/google-play-store-apps).  
-2. Move or copy the `googleplaystore.csv` file to `datalake/raw/play-store` directory.
-
-Alright, now execute the following steps.
 ```bash
 # Build docker image
 docker-compose build
@@ -21,17 +23,23 @@ docker-compose build
 # Up the container
 docker-compose up -d
 
+# Install dependencies
+docker-compose exec app uv sync
+
+# Generate the mock sales dataset
+docker-compose exec app scripts/generate_sales_data.sh
+
 # Execute the PySpark job
-docker-compose exec app /app/run.sh
+docker-compose exec app /app/scripts/run.sh
+
+# Run the tests
+docker-compose exec app uv run pytest
+
+# Lint
+docker-compose exec app uv run ruff check .
 ```
 
 ![#output](.docs/output.png)
-
-#### Let's check on [MongoDB](http://localhost:8081/db/admin/play-store).
-
-![#mongo](.docs/output-mongo.png)
-![#mongo-rec](.docs/output-mongo-rec.png)
-
 
 Finally, when you finish drop the container.
 ```bash
