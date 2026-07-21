@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# @author       Anthony Vilarim Caliani
-# @contact      github.com/avcaliani
 #
 # Generates a mock "Dunder Mifflin daily sales" dataset (CSV, medallion
 # bronze layer). Standard library only -- no pip install, no venv, just a

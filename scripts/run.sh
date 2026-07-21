@@ -1,6 +1,4 @@
 #!/bin/bash -xe
-# @author       Anthony Vilarim Caliani
-# @contact      github.com/avcaliani
 
 cd "$(dirname "$0")/.."
 
