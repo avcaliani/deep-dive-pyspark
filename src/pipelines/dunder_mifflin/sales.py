@@ -18,6 +18,7 @@ class SalesPipeline(Pipeline):
     def run(self) -> None:
         log.info(f'{TAG}: STARTED')
         df = file.read_csv(self.spark, BRONZE_PATH)
+        log.info(f'{TAG}: Input Row Count: {df.count():,}')
         log.info(f'{TAG}: PROCESSING')
         file.write_delta(self.spark, self.process(df), OUTPUT_PATH, CLUSTER_BY)
         log.info(f'{TAG}: RESULTS')
@@ -26,6 +27,7 @@ class SalesPipeline(Pipeline):
 
     def show(self) -> None:
         df = file.read_delta(self.spark, OUTPUT_PATH)
+        log.info(f'{TAG}: Output Row Count: {df.count():,}')
         df.printSchema()
         df.show(5)
 
