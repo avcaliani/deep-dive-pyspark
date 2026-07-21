@@ -4,7 +4,7 @@ import pytest
 from pyspark.sql.types import DateType, DoubleType, LongType, StringType, StructField, StructType
 from pyspark.testing.utils import assertDataFrameEqual
 
-from pipeline.dunder_mifflin.sales import SalesPipeline
+from pipelines.dunder_mifflin.sales import SalesPipeline
 
 COLUMNS = ['sale_id', 'date', 'branch', 'salesperson', 'client', 'product', 'quantity', 'unit_price', 'discount_pct']
 

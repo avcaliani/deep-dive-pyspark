@@ -3,7 +3,7 @@ from os import environ as env
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as f
 
-from pipeline.base import Pipeline
+from pipelines.base import Pipeline
 from utils import file, log
 
 TAG = 'Dunder Mifflin Sales'

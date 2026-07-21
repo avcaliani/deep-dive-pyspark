@@ -2,7 +2,7 @@ import argparse
 
 from pyspark.sql import SparkSession
 
-from pipeline import PIPELINES
+from pipelines import PIPELINES
 from utils import log
 
 

@@ -1,5 +1,5 @@
-from pipeline.base import Pipeline
-from pipeline.dunder_mifflin.sales import SalesPipeline
+from pipelines.base import Pipeline
+from pipelines.dunder_mifflin.sales import SalesPipeline
 
 PIPELINES: dict[str, type[Pipeline]] = {
     'dunder-mifflin-sales': SalesPipeline,
