@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 #
-# Generates a mock "Dunder Mifflin daily sales" dataset (CSV, medallion
-# bronze layer). Standard library only -- no pip install, no venv, just a
-# plain `python3 scripts/generate_sales_data.py`.
+# Generates a mock "Dunder Mifflin daily sales"
 #
 # Env vars:
-#   NUM_ROWS   total row count across all files   (default 1000000)
-#   NUM_FILES  number of part files to split into (default 10, auto-capped
-#              down if NUM_ROWS is low relative to NUM_FILES)
-#   DATA_PATH  medallion data root                (default /data)
+#   NUM_ROWS   total row count across all files     (default 1000000)
+#   NUM_FILES  number of part files to split into   (default 10)
+#   DATA_PATH  output path                         (default /data)
 
 import csv
 import os
@@ -107,7 +104,15 @@ def main() -> None:
     num_files = resolve_num_files(num_rows, num_files)
 
     output_dir = Path(data_path) / 'bronze' / 'dunder-mifflin' / 'sales'
-    output_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+    except OSError as ex:
+        sys.exit(
+            f'generate_sales_data: could not create {output_dir} ({ex}). '
+            f'DATA_PATH defaults to /data, which only exists inside the Docker '
+            f'container -- outside Docker, set DATA_PATH to a writable local folder '
+            f'(e.g. DATA_PATH=./data).'
+        )
 
     base_rows, extra_rows = divmod(num_rows, num_files)
 
