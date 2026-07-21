@@ -34,7 +34,7 @@ docker compose exec app scripts/run.sh
 docker compose down
 ```
 
-![#output](.docs/output.png)
+![#output](.docs/output.gif)
 
 <details>
 <summary>Run locally (without Docker)</summary>
