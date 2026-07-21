@@ -1,3 +1,5 @@
+<div align="center">
+
 ![The Paper Trail](.docs/logo.svg)
 
 ![License](https://img.shields.io/github/license/avcaliani/deep-dive-pyspark?logo=apache&color=lightseagreen)
@@ -8,14 +10,16 @@
 ![Delta Lake](https://img.shields.io/badge/Delta_Lake-4.2.0-00ADD8)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 
-In this project you will find some stuff that I've done while learning about working with PySpark and [Delta Lake](https://delta.io).  
-This is a reference scaffold you clone from to start new PySpark projects.
+In this project you will find some stuff that I've done while learning about working with PySpark.  
+The dataset I'm using is a locally-generated, dependency-free mock of Dunder Mifflin's daily paper sales.  
+Yes, [The Office](https://en.wikipedia.org/wiki/The_Office_(American_TV_series)), I'm a big fan \o/
 
-The dataset is a locally-generated, dependency-free mock of Dunder Mifflin's daily paper sales (yes, [The Office](https://en.wikipedia.org/wiki/The_Office_(American_TV_series))) — no download.
+</div>
 
 ## Quick Start
 
-Java, Spark, uv, and all Python dependencies are baked into the image at build time — no manual install step after `up`.
+Java, Spark, uv, and all Python dependencies are baked into the image at build time.  
+No manual install step after `up`.
 
 ```bash
 # Build the image
@@ -37,7 +41,7 @@ docker compose down
 ![#output](.docs/output.gif)
 
 <details>
-<summary>Run locally (without Docker)</summary>
+<summary>Run locally (without Docker) 👇</summary>
 
 Requires Python 3.12, JDK 21, and [uv](https://docs.astral.sh/uv/) installed locally.
 
@@ -64,4 +68,4 @@ uv run ruff check .
 
 </details>
 
-That's all folks!
+PS.: This is an unofficial fan project for learning PySpark, not affiliated with or endorsed by NBC/Universal.
