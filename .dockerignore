@@ -1,0 +1,18 @@
+.git/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+.idea/
+.vscode/
+.DS_Store
+
+.docs/
+.github/
+README.md
+
+# Bind-mounted at runtime (./data:/data) — not needed in the build context
+data/
+
+spark-warehouse/
