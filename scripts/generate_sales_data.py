@@ -106,7 +106,7 @@ def main() -> None:
 
     num_files = resolve_num_files(num_rows, num_files)
 
-    output_dir = Path(data_path) / 'bronze' / 'dunder-mifflin-sales'
+    output_dir = Path(data_path) / 'bronze' / 'dunder-mifflin' / 'sales'
     output_dir.mkdir(parents=True, exist_ok=True)
 
     base_rows, extra_rows = divmod(num_rows, num_files)

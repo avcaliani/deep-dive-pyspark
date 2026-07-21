@@ -4,7 +4,7 @@ import pytest
 from pyspark.sql.types import DateType, DoubleType, LongType, StringType, StructField, StructType
 from pyspark.testing.utils import assertDataFrameEqual
 
-from pipeline.dunder_mifflin_sales import DunderMifflinSalesPipeline
+from pipeline.dunder_mifflin.sales import SalesPipeline
 
 COLUMNS = ['sale_id', 'date', 'branch', 'salesperson', 'client', 'product', 'quantity', 'unit_price', 'discount_pct']
 
@@ -29,7 +29,7 @@ def test_rename_cols(spark):
         [('1', 'January 5, 2024', 'Scranton', 'Jim Halpert', 'Acme', 'Copy Paper', '10', '$12.50', '5')],
         ['Sale Id', ' DATE ', 'Branch', 'Salesperson', 'Client', 'Product', 'Quantity', 'Unit Price', 'Discount Pct'],
     )
-    result = DunderMifflinSalesPipeline.rename_cols(df)
+    result = SalesPipeline.rename_cols(df)
     assert result.columns == COLUMNS
 
 @pytest.mark.parametrize('row, expected_row', [
@@ -47,7 +47,7 @@ def test_rename_cols(spark):
 def test_parse_cols(spark, row, expected_row):
     df = spark.createDataFrame([row], COLUMNS)
     assertDataFrameEqual(
-        actual = DunderMifflinSalesPipeline.parse_cols(df), 
+        actual = SalesPipeline.parse_cols(df), 
         expected = spark.createDataFrame(
             [expected_row], 
             PARSED_SCHEMA
@@ -79,6 +79,6 @@ CLEAN_ROW = ('1', date(2024, 1, 5), 'Scranton', 'Jim Halpert', 'Acme', 'Copy Pap
 def test_data_quality(spark, row, kept):
     df = spark.createDataFrame([row], PARSED_SCHEMA)
     assertDataFrameEqual(
-        DunderMifflinSalesPipeline.data_quality(df), 
+        SalesPipeline.data_quality(df), 
         df if kept else spark.createDataFrame([], PARSED_SCHEMA)
     )
