@@ -8,12 +8,12 @@ from utils import file, log
 
 TAG = 'Dunder Mifflin Sales'
 DATA_PATH = env.get('DATA_PATH', '/data')
-BRONZE_PATH = f'{DATA_PATH}/bronze/dunder-mifflin-sales'
-OUTPUT_PATH = f'{DATA_PATH}/silver/dunder-mifflin-sales'
+BRONZE_PATH = f'{DATA_PATH}/bronze/dunder-mifflin/sales'
+OUTPUT_PATH = f'{DATA_PATH}/silver/dunder-mifflin/sales'
 CLUSTER_BY = ['branch', 'date']
 
 
-class DunderMifflinSalesPipeline(Pipeline):
+class SalesPipeline(Pipeline):
 
     def run(self) -> None:
         log.info(f'{TAG}: STARTED')

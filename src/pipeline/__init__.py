@@ -1,8 +1,8 @@
 from pipeline.base import Pipeline
-from pipeline.dunder_mifflin_sales import DunderMifflinSalesPipeline
+from pipeline.dunder_mifflin.sales import SalesPipeline
 
 PIPELINES: dict[str, type[Pipeline]] = {
-    'dunder-mifflin-sales': DunderMifflinSalesPipeline,
+    'dunder-mifflin-sales': SalesPipeline,
 }
 
-__all__ = ['Pipeline', 'DunderMifflinSalesPipeline', 'PIPELINES']
+__all__ = ['Pipeline', 'SalesPipeline', 'PIPELINES']
