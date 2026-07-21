@@ -19,10 +19,15 @@ package = false
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+filterwarnings = ["ignore:unclosed <socket.socket:ResourceWarning"]
 
 [tool.ruff]
 line-length = 120
-src = ["src", "tests"]
+src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
+# E = pycodestyle
+# F = Pyflakes
+# I = isort
+# UP = pyupgrade
