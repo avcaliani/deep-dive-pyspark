@@ -9,6 +9,3 @@
 | File(s) | Change |
 |---|---|
 | `` |  |
-
----
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
