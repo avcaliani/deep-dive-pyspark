@@ -1,0 +1,31 @@
+<svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Paper Trail logo">
+  <style>
+    .ink { stroke: #3D5578; }
+    .ink-fill { fill: #3D5578; }
+    .accent-fill { fill: #C9702E; }
+    .word { fill: #3D5578; font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace; font-weight: 700; letter-spacing: 0.12em; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #9FB4D9; }
+      .ink-fill { fill: #9FB4D9; }
+      .word { fill: #C7D3E8; }
+    }
+  </style>
+
+  <!-- page with folded corner -->
+  <path class="ink" d="M40,25 L104,25 L132,53 L132,130 L40,130 Z" fill="none" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+  <path class="ink" d="M104,25 L104,53 L132,53" fill="none" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+
+  <!-- ledger rules -->
+  <line class="ink" x1="56" y1="70" x2="110" y2="70" stroke-width="3.5" stroke-linecap="round" />
+  <line class="ink" x1="56" y1="86" x2="118" y2="86" stroke-width="3.5" stroke-linecap="round" />
+  <line class="ink" x1="56" y1="102" x2="96" y2="102" stroke-width="3.5" stroke-linecap="round" />
+
+  <!-- the trail, leaving the page -->
+  <path class="ink" d="M118,110 C 148,120 162,132 186,140" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 12" />
+  <circle class="ink-fill" cx="150" cy="124" r="3.5" />
+  <circle class="accent-fill" cx="188" cy="141" r="6" />
+
+  <!-- wordmark -->
+  <text class="word" x="228" y="92" font-size="42">THE PAPER TRAIL</text>
+  <line class="ink" x1="228" y1="108" x2="560" y2="108" stroke-width="2" opacity="0.5" />
+</svg>
