@@ -1,4 +1,4 @@
-# 🐍️ PySpark App
+![The Paper Trail](.docs/logo.svg)
 
 ![License](https://img.shields.io/github/license/avcaliani/deep-dive-pyspark?logo=apache&color=lightseagreen)
 ![Java](https://img.shields.io/badge/Java-21-FF7800?logo=openjdk&logoColor=white)
@@ -8,10 +8,10 @@
 ![Delta Lake](https://img.shields.io/badge/Delta_Lake-4.2.0-00ADD8)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 
-In this project you will find some stuff that I've done while learning about working with PySpark and [Delta Lake](https://delta.io).
-This is a reference scaffold you clone from to start new PySpark projects, not a maintained showcase.
+In this project you will find some stuff that I've done while learning about working with PySpark and [Delta Lake](https://delta.io).  
+This is a reference scaffold you clone from to start new PySpark projects.
 
-The dataset is a locally-generated, dependency-free mock of Dunder Mifflin's daily paper sales (yes, [The Office](https://en.wikipedia.org/wiki/The_Office_(American_TV_series))) — no download, no internet access needed to run this.
+The dataset is a locally-generated, dependency-free mock of Dunder Mifflin's daily paper sales (yes, [The Office](https://en.wikipedia.org/wiki/The_Office_(American_TV_series))) — no download.
 
 ## Quick Start
 
