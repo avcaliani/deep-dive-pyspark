@@ -14,7 +14,7 @@ import sys
 import uuid
 from pathlib import Path
 
-MIN_ROWS_PER_FILE = 1000
+INVALID_PCT = 5
 
 MONTHS = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -36,57 +36,44 @@ CLIENTS = [
     'Northern Light Paper Co', 'Utica Office Supply', 'Stamford Business Center',
     'Nashua Print & Ship', 'Camden County Schools', 'Akron Rubber Works',
 ]
-HEADER = ['sale_id', 'date', 'branch', 'salesperson', 'client', 'product', 'quantity', 'unit_price', 'discount_pct']
+CSV_HEADER = ['sale_id', 'date', 'branch', 'salesperson', 'client', 'product', 'quantity', 'unit_price', 'discount_pct']
 
 
-def resolve_num_files(num_rows: int, num_files: int) -> int:
-    max_files_by_rows = max(1, num_rows // MIN_ROWS_PER_FILE)
-    if num_files <= max_files_by_rows:
-        return num_files
-    print(
-        f'generate_sales_data: capping NUM_FILES {num_files} -> {max_files_by_rows} '
-        f'(NUM_ROWS={num_rows} is low relative to the requested file count)',
-        file=sys.stderr,
-    )
-    return max_files_by_rows
+def maybe_buggy(row: dict) -> dict:
+    if random.randint(0, 99) >= INVALID_PCT:
+        return row
+
+    match random.randint(0, 2):
+        case 0:
+            row['salesperson'] = ''
+        case 1:
+            row['date'] = ''
+        case _:
+            row['quantity'] = -row['quantity']
+
+    return row
 
 
 def build_row() -> list:
-    date_field = f'{random.choice(MONTHS)} {random.randint(1, 28)}, {random.randint(2022, 2024)}'
-    salesperson = random.choice(SALESPEOPLE)
-    quantity = random.randint(1, 100)
-
-    # ~5% dirty rows: missing salesperson | missing date | negative quantity
-    # ("Michael's prank returns")
-    if random.random() < 0.05:
-        dirty_kind = random.randint(0, 2)
-        if dirty_kind == 0:
-            salesperson = ''
-        elif dirty_kind == 1:
-            date_field = ''
-        else:
-            quantity = -quantity
-
     cents = random.randint(100, 15000)
-    unit_price = f'${cents // 100}.{cents % 100:02d}'
-
-    return [
-        str(uuid.uuid4()),
-        date_field,
-        random.choice(BRANCHES),
-        salesperson,
-        random.choice(CLIENTS),
-        random.choice(PRODUCTS),
-        quantity,
-        unit_price,
-        random.randint(0, 25),
-    ]
+    row = maybe_buggy({
+        'sale_id': str(uuid.uuid4()),
+        'date': f'{random.choice(MONTHS)} {random.randint(1, 28)}, {random.randint(2022, 2024)}',
+        'branch': random.choice(BRANCHES),
+        'salesperson': random.choice(SALESPEOPLE),
+        'client': random.choice(CLIENTS),
+        'product': random.choice(PRODUCTS),
+        'quantity': random.randint(1, 100),
+        'unit_price': f'${cents // 100}.{cents % 100:02d}',
+        'discount_pct': random.randint(0, 25),
+    })
+    return [row[col] for col in CSV_HEADER]
 
 
 def write_part_file(path: Path, num_rows: int) -> None:
     with path.open('w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(HEADER)
+        writer.writerow(CSV_HEADER)
         for _ in range(num_rows):
             writer.writerow(build_row())
 
@@ -96,23 +83,8 @@ def main() -> None:
     num_files = int(os.environ.get('NUM_FILES', 10))
     data_path = os.environ.get('DATA_PATH', '/data')
 
-    if num_rows < 1:
-        sys.exit(f'generate_sales_data: NUM_ROWS must be >= 1 (got {num_rows})')
-    if num_files < 1:
-        sys.exit(f'generate_sales_data: NUM_FILES must be >= 1 (got {num_files})')
-
-    num_files = resolve_num_files(num_rows, num_files)
-
     output_dir = Path(data_path) / 'bronze' / 'dunder-mifflin' / 'sales'
-    try:
-        output_dir.mkdir(parents=True, exist_ok=True)
-    except OSError as ex:
-        sys.exit(
-            f'generate_sales_data: could not create {output_dir} ({ex}). '
-            f'DATA_PATH defaults to /data, which only exists inside the Docker '
-            f'container -- outside Docker, set DATA_PATH to a writable local folder '
-            f'(e.g. DATA_PATH=./data).'
-        )
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     base_rows, extra_rows = divmod(num_rows, num_files)
 
